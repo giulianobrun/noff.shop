@@ -1,0 +1,247 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: white;
+  overflow: hidden;
+}
+
+/* ---------- Banner ---------- */
+#banner {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  height: 50px;
+  line-height: 30px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.078) 70%, rgba(0, 0, 0, 0.166) 10%);
+  text-align: center;
+  padding: 10px 0;
+  font-size: 26px;
+  font-weight: bold;
+  font-family: 'Space Mono', monospace;
+  z-index: 1000;
+  color: rgb(255, 255, 255);
+}
+
+/* ---------- Menu hamburger (in alto a sx) ---------- */
+#menu-toggle {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 3000; /* sopra al menu aperto, così la X resta cliccabile */
+  -webkit-tap-highlight-color: transparent;
+}
+#menu-toggle span {
+  position: absolute;
+  right: 20px;
+  width: 15px;
+  height: 3px;
+  background: #ffffffa7;
+  border-radius: 0px;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+}
+#menu-toggle span:nth-child(1) { top: 16px; }
+#menu-toggle span:nth-child(2) { top: 24px; }
+#menu-toggle span:nth-child(3) { top: 32px; }
+
+/* Hamburger -> X */
+.menu-open #menu-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-open #menu-toggle span:nth-child(2) { opacity: 0; }
+.menu-open #menu-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+#menu-toggle:focus-visible {
+  outline: 2px solid #32b067;
+  outline-offset: -6px;
+}
+
+/* ---------- Menu a tutto schermo ---------- */
+#menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  background: rgba(18, 18, 18, 0.96);
+  opacity: 0;
+  visibility: hidden;
+  /* in chiusura: prima sfuma, poi diventa invisibile */
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+.menu-open #menu {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s ease;
+}
+
+#menu a {
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 28px;
+  font-weight: bold;
+  transform: translateY(16px);
+  transition: transform 0.4s ease, color 0.2s ease;
+}
+.menu-open #menu a {
+  transform: translateY(0);
+}
+#menu a:nth-child(2) {
+  transition-delay: 0.06s;
+}
+#menu a:hover,
+#menu a:focus-visible {
+  color: #32b067;
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #menu,
+  #menu a,
+  #menu-toggle span {
+    transition: none;
+  }
+}
+
+/* ---------- Video ---------- */
+#video-container {
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+.video-slide {
+  position: relative;
+  width: 100%;
+  height: 100%; /* stessa altezza del contenitore: niente sfasamenti su mobile */
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Carosello prodotti ---------- */
+.info-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  position: absolute;
+  bottom: 80px;
+  left: 0px;
+  right: 0px;
+  padding: 10px;
+  z-index: 10;
+  scrollbar-width: none;
+  pointer-events: auto;
+}
+.info-carousel::-webkit-scrollbar {
+  display: none;
+}
+.info-box {
+  min-width: 180px;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 12px;
+  border-radius: 28px;
+  color: white;
+  font-weight: bold;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 0;
+  line-height: 0.25;
+}
+.info-box button {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #32b067;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.info-box button:hover {
+  background-color: #cc7a00;
+}
+
+/* ---------- Pre-loader ---------- */
+#pre-loader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5000;   /* sopra banner, menu e hamburger */
+  background: #0a0123 url('images/loader.gif') no-repeat calc(50% + 9px) center;
+  background-size: 30%;
+  transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+}
+#pre-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ---------- Desktop: colonna centrale stile telefono ---------- */
+@media (min-width: 992px) {
+  #video-container {
+    position: relative;
+    top: auto;     /* azzerati: con position: relative sposterebbero il contenitore */
+    bottom: auto;
+    left: auto;
+    width: 430px;
+    max-width: 430px;
+    margin: 50px auto 0;
+    height: calc(100vh - 50px);
+    height: calc(100dvh - 50px);
+  }
+
+  /* ---------- Barra di scorrimento ---------- */
+  /* Chrome, Edge, Safari */
+  #video-container::-webkit-scrollbar {
+    width: 4px;                  /* larghezza: cambia qui */
+  }
+  #video-container::-webkit-scrollbar-track {
+    background: transparent;     /* si fonde con la pagina */
+  }
+  #video-container::-webkit-scrollbar-thumb {
+    background: #2a2a2a;         /* la parte che si muove */
+    border-radius: 4px;
+  }
+
+  /* Firefox */
+  @supports not selector(::-webkit-scrollbar) {
+    #video-container {
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a2a transparent;
+    }
+  }
+}
